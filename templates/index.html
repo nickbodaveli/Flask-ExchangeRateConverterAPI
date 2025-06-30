@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Exchange Rate Converter{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 text-center">🌍 Currency Converter</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" class="row g-3 justify-content-center">
+        <div class="col-md-3">
+            <input type="number" step="any" name="amount" value="{{ amount }}" class="form-control" placeholder="Amount" required>
+        </div>
+
+        <div class="col-md-2">
+            <select name="from_currency" class="form-select" required>
+                {% for symbol in symbols %}
+                    <option value="{{ symbol }}" {% if symbol == from_currency %}selected{% endif %}>{{ symbol }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="to_currency" class="form-select" required>
+                {% for symbol in symbols %}
+                    <option value="{{ symbol }}" {% if symbol == to_currency %}selected{% endif %}>{{ symbol }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Convert</button>
+        </div>
+    </form>
+
+    {% if converted_amount is not none %}
+        <div class="alert alert-success text-center mt-4">
+            {{ amount }} {{ from_currency }} = <strong>{{ converted_amount }} {{ to_currency }}</strong>
+        </div>
+    {% endif %}
+{% endblock %}
